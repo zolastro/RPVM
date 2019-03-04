@@ -30,7 +30,7 @@ else
 fi
 
 if Rscript install_dependencies.R; then
-    printf "Script executed succesfully!"
+    printf "Script executed succesfully!\n"
 else
     printf "There was an error installing the dependencies. Please, check the console output\n"
     exit 5
