@@ -7,6 +7,9 @@
         {
             "name": "accelerometry",
             "version": "3.1.1"
-        }
+        },
+	{
+	    "name": "fortunes"
+	}
     ]
 }

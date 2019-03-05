@@ -19,7 +19,13 @@ fi
 if [ ! -d packages ]; then
     mkdir packages
 fi
-printf "" >> .Rprofile 
+
+if [ ! -f .Rprofile ]; then
+    touch .Rprofile
+fi
+
+sed -i".bak" '/libPaths/d'  .Rprofile
+printf ".libPaths('./packages/')" >> .Rprofile 
 
 printf "Creating R script...\n"
 

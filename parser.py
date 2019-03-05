@@ -18,3 +18,4 @@ for package in packages:
     print(')', end="", file=open('install_dependencies.R', 'a'))
     print(')', file=open('install_dependencies.R', 'a'))
         
+print('.libPaths("./packages/")', file=open('install_dependencies.R', 'a'))
