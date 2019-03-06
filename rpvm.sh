@@ -24,8 +24,7 @@ if [ ! -f .Rprofile ]; then
     touch .Rprofile
 fi
 
-sed -i".bak" '/libPaths/d'  .Rprofile
-printf ".libPaths('./packages/')" >> .Rprofile 
+echo ".libPaths('./packages/')" >> .Rprofile 
 
 printf "Creating R script...\n"
 
