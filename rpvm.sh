@@ -15,30 +15,18 @@ if [ ! -f r-packages.json ]; then
     exit 3
 fi
 
-#Create a file to store version
-if [ ! -d packages ]; then
-    mkdir packages
+if [ $1 = 'install' ]; then
+    if [ $# -gt 1 ]; then
+        ./rpvm_install_new_package.sh "${@:2}"
+    else
+        ./rpvm_install_all_dependencies.sh
+    fi
 fi
 
-printf "Creating R script...\n"
-
-if python3 parser.py; then
-    printf "Script created! Running script...\n"
-else
-    printf "There was an error parsing r-package.json.\nIs it correctly formatted?\n"
+if [ $1 = 'uninstall' ]; then
+    if ! [ $# -gt 1 ]; then
+        printf "No package to uninstall given.\nUsage: rvpm uninstall package_name\n"
+        exit 4
+    fi
+    ./rpvm_uninstall_package.sh $2
 fi
-
-sed -i".bak" '/libPaths/d'  .Rprofile
-
-if Rscript install_dependencies.R; then
-    printf "Script executed succesfully!\n"
-else
-    printf "There was an error installing the dependencies. Please, check the console output\n"
-    exit 5
-fi
-
-if [ ! -f .Rprofile ]; then
-    touch .Rprofile
-fi
-
-echo ".libPaths('./packages/')" >> .Rprofile 
