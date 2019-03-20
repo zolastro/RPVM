@@ -2,6 +2,10 @@
 set -e
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
+usage() {
+    echo "Usage: rpvm install -n <package_name> [-v <package_version>] [-r <package_repos>]";
+}
+
 pkg_name=""
 pkg_version=""
 pkg_repos=""
@@ -10,16 +14,18 @@ while getopts ":n:v:r:" opt; do
     case "$opt" in
     n)
         pkg_name=$OPTARG
-	echo "Package $pkg_name"
+	    echo "Package $pkg_name"
 	;;
-    v)  pkg_version=$OPTARG
-	echo "Version: $pkg_version"
+    v)  
+        pkg_version=$OPTARG
+	    echo "Version: $pkg_version"
         ;;
-    r)  pkg_repos=$OPTARG
+    r)  
+        pkg_repos=$OPTARG
         echo "Repos: $pkg_repos"
 	;;
     *)
-        echo "Invalid option: -$OPTARG" >&2
+        usage
         exit 1
         ;;
     esac
@@ -27,11 +33,14 @@ done
 
 if [ -z $pkg_name ]; then
     echo "No package name provided"
+    usage
     exit -1
 fi
 
+basedir=$(dirname $0)
+
 echo "Adding library $pkg_name"
-if python3 add_package_to_dependencies.py $pkg_name $pkg_version $pkg_repos; then
+if python3 ${basedir}/add_package_to_dependencies.py $pkg_name $pkg_version $pkg_repos; then
     printf "Script created! Running script...\n"
 else
     printf "There was an error parsing r-package.json.\nIs it correctly formatted?\n"

@@ -15,18 +15,16 @@ if [ ! -f r-packages.json ]; then
     exit 3
 fi
 
-if [ $1 = 'install' ]; then
-    if [ $# -gt 1 ]; then
-        ./rpvm_install_new_package.sh "${@:2}"
-    else
-        ./rpvm_install_all_dependencies.sh
-    fi
-fi
+basedir=$(dirname $(dirname $0))
 
-if [ $1 = 'uninstall' ]; then
-    if ! [ $# -gt 1 ]; then
-        printf "No package to uninstall given.\nUsage: rvpm uninstall package_name\n"
-        exit 4
-    fi
-    ./rpvm_uninstall_package.sh $2
+if [ "$1" = 'install' ]; then
+    ${basedir}/scripts/rpvm_install_dependencies
+elif [ "$1" = 'add' ]; then
+    ${basedir}/scripts/rpvm_add_package "${@:2}"
+elif [ "$1" = 'remove' ]; then
+    ${basedir}/scripts/rpvm_remove_package $2
+else
+    echo "Usage: rpvm <command>"
+    echo "Where command is one of the following: install, add, remove"
+
 fi

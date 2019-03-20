@@ -2,9 +2,17 @@
 set -e
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
+if [ "$#" -eq 0 ]; then
+    echo "No package to remove given"
+    echo "Usage: rpvm remove <package_name>"
+    exit -1
+fi
+
+basedir=$(dirname $0)
+
 pkg_name=$1
 
-if python3 remove_package_from_dependencies.py $pkg_name; then
+if python3 ${basedir}/remove_package_from_dependencies.py $pkg_name; then
     printf "Package $pkg_name removed from dependencies\n"
 else
     printf "There was an error parsing r-package.json.\nIs it correctly formatted?\n"

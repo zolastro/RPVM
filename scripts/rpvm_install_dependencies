@@ -7,13 +7,17 @@ fi
 
 printf "Creating R script...\n"
 
-if python3 parser.py; then
+basedir=$(dirname $0)
+
+if python3  ${basedir}/parser.py; then
     printf "Script created! Running script...\n"
 else
     printf "There was an error parsing r-package.json.\nIs it correctly formatted?\n"
 fi
 
-sed -i".bak" '/libPaths/d'  .Rprofile
+if [ -f .Rprofile ]; then
+    sed -i".bak" '/libPaths/d'  .Rprofile
+fi
 
 if Rscript install_dependencies.R; then
     printf "Script executed succesfully!\n"
