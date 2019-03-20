@@ -6,8 +6,6 @@ jsonFile = open('r-packages.json', 'r') # Open the JSON file for reading
 data = json.load(jsonFile) # Read the JSON into the buffer
 jsonFile.close() # Close the JSON file
 
-packages = data['packages']
-
 pkg_name = sys.argv[1]
 pkg_version = None
 pkg_repos = None
@@ -26,16 +24,10 @@ if pkg_version is not None:
 if pkg_repos is not None:
     pkg_to_install['repos'] = pkg_repos
 
-found = False;
-for package in packages:
-    if (package['name'] == pkg_name):
-        package = pkg_to_install
-        found = true
-        break;
-
-if not found:
-    packages.append(pkg_to_install)
-
+packages = data['packages']
+pkgs = list(filter(lambda package : package['name'] != pkg_name, packages))
+pkgs.append(pkg_to_install)
+data['packages'] = pkgs
 # Save JSON file
 jsonFile = open('r-packages.json', 'w+')
 jsonFile.write(json.dumps(data, indent=4))
