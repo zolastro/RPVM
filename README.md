@@ -29,9 +29,22 @@ Run `source ~/.bashrc` to apply your new configuration.
 Finally, try running `rpvm -v`. If everything was correct, you should be prompted with a message similar to this:
 `RPVM v0.0.1`
 
+## Usage
+You must add a package similar to [r-packages.json](r-packages.json) to your R project folder. You can either modify it manually or add packages using the command:
+
+`rpvm install -n <package_name> [-v <package_version>] [-r <package_repos>]`
+
+To remove a package from `r-packages.json`, just use:
+
+`rpvm remove <package_name>`
+
+Finally, to install all your R dependencies, run:
+
+`rpvm install`
+
 ## Contributing
 
-Feel free to create any pull request or open an issue! Any help is appreciated!
+Feel free to create any pull request or open an issue. Any help is appreciated!
 
 ## License
 
